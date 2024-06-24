@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}
+    Show All Students
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        <h5>All Students List</h5>
+        <p>Choose a student</p>
+        <form action="{% url 'showStudentClasses' %}" method="get">
+            <select name="theStudent">
+                <option value="">Select a student</option>
+                {% for theStudent in allStudents %}
+                    <option value="{{ theStudent.id }}">{{ theStudent.firstName }} {{ theStudent.lastName }}
+                        ({{ theStudent.email }})
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="View Details">
+        </form>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

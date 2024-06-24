@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}
+    Course page
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        <form action="{% url 'updateCourse' course.id %}" method="post">
+            {% csrf_token %}
+            <p><input type="hidden" name="id" value="{{ course.id }}"></p>
+            <p>Code:</p>
+            <p><input type="text" name="code" value="{{ course.code }}"></p>
+            <p>Name:</p>
+            <p><input type="text" name="name" value="{{ course.name }}"></p>
+            <input type="submit" value="UPDATE">
+        </form>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

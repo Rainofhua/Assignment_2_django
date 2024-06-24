@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}
+    Update Class
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        <form action="{% url 'updateClass' class.id %}" method="post">
+            {% csrf_token %}
+            <p><input type="hidden" name="id" value="{{ class.id }}"></p>
+            <p>Number:</p>
+            <p><input type="text" name="number" value="{{ class.number }}"></p>
+            <p>Semester:</p>
+            <!--下面的代码中我们有一个selected（布尔属性//专门用来指示下拉菜单中的某个选项是否被预选中），当class.semester.id等于这个选项时，selected = true，直接跳出循环这个选项就会被显示出来-->
+            <p>
+                <select name="semester">
+                    {% for semester_choice in semester_choices %}
+                        <option value="{{ semester_choice.id }}" {% if semester_choice.id == class.semester.id %}
+                                selected {% endif %}>{{ semester_choice }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p>Course:</p>
+            <p>
+                <select name="course">
+                    {% for course_choice in course_choices %}
+                        <option value="{{ course_choice.id }}" {% if course_choice.id == class.course.id %}
+                                selected {% endif %}>{{ course_choice }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p>Lecturer:</p>
+            <p>
+                <select name="lecturer">
+                    {% for lecturer_choice in lecturer_choices %}
+                        <option value="{{ lecturer_choice.id }}" {% if lecturer_choice.id == class.lecturer.id %}
+                                selected {% endif %}>{{ lecturer_choice }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <input type="submit" value="UPDATE">
+        </form>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

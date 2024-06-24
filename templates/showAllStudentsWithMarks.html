@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+    Show All Students
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+    <button onclick="goBack()" class="goBackButton">Go Back</button>
+    <h5>Class Number: {{ class.number }}</h5>
+    <form method="post" action="{% url 'submitMarks' %}">
+        {% csrf_token %}
+        <input type="hidden" name="class_id" value="{{ class.id }}">
+        <ul>
+            {% for student in students %}
+                <li>{{ student.firstName }} {{ student.lastName }}
+                    <input type="number" name="mark_{{ student.id }}" min="0" max="100">
+                </li>
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Submit">
+    </form>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

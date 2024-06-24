@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}
+    Show All Students
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h5>All Students List</h5>
+        <p>Choose a student to edit</p>
+        {#    <form action="{% url 'showTheStudentDetail' student.id %}" method="get">#}
+        {#        <select name="theStudent">#}
+        {#            {% for student in students %}#}
+        {#                <option value="{{ student.id }}">#}
+        {#                    {{ student.firstName }}{{ student.lastName }}{{ student.email }}</option>#}
+        {#            {% endfor %}#}
+        {#            <input type="submit" value="Search">#}
+        {#        </select>#}
+        {#    </form>这里遇到的问题是，当是一个get请求，我们是不需要action的。 #}
+        {#    <select name="theStudent" onchange="this.form.submit()">#}
+        {#        {% for student in students %}#}
+        {#            <option value="{{ student.id }}">#}
+        {#                {{ student.firstName }}{{ student.lastName }} - {{ student.email }}</option>#}
+        {#        {% endfor %}#}
+        {#    </select>#}
+        {#    #}
+        {#{% endblock %}#}
+        <form action="{% url 'showTheStudentDetail' %}" method="get">
+            <select name="theStudent">
+                <option value="">Select a student</option>
+                {% for student in students %}
+                    <option value="{{ student.id }}">{{ student.firstName }} {{ student.lastName }} ({{ student.email }})
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="View Details">
+        </form>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

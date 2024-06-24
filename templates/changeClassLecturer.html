@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}
+    Update Class
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if lecturers %}
+            <button onclick="goBack()" class="goBackButton">Go Back</button>
+            <form action="{% url 'saveAndShowClassesWithLecturer' class.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ class.id }}">
+                <p>Class Number: {{ class.number }}</p>
+                <p>Semester: {{ class.semester }}</p>
+                <p>Course: {{ class.course }}</p>
+                <p>Lecturer:
+                    <select name="lecturer">
+                        <option value="">-- Select a Lecturer --</option>
+                        {% for lec in lecturers %}
+                            <option value="{{ lec.id }}">{{ lec.firstName }} {{ lec.lastName }}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+                <input type="submit" value="SAVE">
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+    Login page
+{% endblock %}
+<body>
+{% if user.is_authenticated %}
+    {% block content %}
+        <p>Hello! {{ user.username }}</p>
+        <button><a href="{% url 'showSemesters' %}">Manage Semesters</a></button>
+        <button><a href="{% url 'showCourses' %}">Manage Courses</a></button>
+        <button><a href="{% url 'showClasses' %}">Manage Classes</a></button>
+        <button><a href="{% url 'showStudents' %}">Manage Students</a></button>
+        <button><a href="{% url 'showLecturers' %}">Manage Lecturers</a></button><br>
+        <p>Lecturer to Class</p>
+        <button><a href="{% url 'assignLecturerToClass' %}">Assign Lecture to Class</a></button>
+        <button><a href="{% url 'removeLecturerFromClass' %}">Remove Lecture from Class</a></button>
+        <button><a href="{% url 'removeLecturerFromClass' %}">Change Lecturer to Class</a></button>
+        <button><a href="{% url 'showLecturerToClass' %}">Show Lecturer to Class</a></button>
+        <p>Student to Class</p>
+        <button><a href="{% url 'showAllStudents' %}">Enrol Student to Class</a></button>
+        <button><a href="{% url 'showAllStudentsClasses' %}">Show Student's Classes</a></button>
+        <button><a href="{% url 'showAllStudentstoRemoveClasses' %}">Remove Student's Classes</a></button>
+        <p>Send Email to Student</p>
+        <button><a href="{% url 'send_email_out' %}">Send Email to Student</a></button>
+        <p>Upload Excel File</p>
+        <button><a href="{% url 'file_upload' %}">Upload Excel File</a></button>
+    {% endblock %}
+{% endif %}
+</body>

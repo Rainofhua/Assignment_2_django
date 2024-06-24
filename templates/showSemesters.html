@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}
+    Show All Semesters
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        {% for semester in semesters %}
+            <p>
+                <a href="{% url 'showSemester' semester.id %}">
+                    {{ semester.id }} - {{ semester.year }} - {{ semester.semester }}
+                </a>
+                <a href="{% url 'updateSemester' semester.id %}" class="btn btn-danger">
+                    Update
+                </a>
+                <a href="{% url "deleteSemester" semester.id %}" class="btn btn-danger">
+                    Delete
+                </a>
+            </p>
+        {% endfor %}
+        <a href="{% url 'createSemester' %}" class="btn btn-primary">Create New Semester</a>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

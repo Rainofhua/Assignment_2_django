@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}
+    Show All Classes
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% if not classes %}
+            <p>Create a class first before assigning a class to a lecturer</p>
+        {% else %}
+            <ul id="classList">
+                <p>Choose a class to remove:</p>
+                {% for class in classes %}
+                    <li>{{ class.number }} - {{ class.course.name }}
+                        - {{ class.lecturer.firstName }} {{ class.lecturer.lastName }}
+                        <a href="{% url 'removeLecturer' class.id %}" class="btn btn-danger">Remove</a>
+                        <a href="{% url 'AssignALecturerToThisClass' class.id %}" class="btn btn-danger">Update</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .alert {
+            color: red;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}
+    Student's Classes
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        <h5>Student information:</h5>
+        <p>Name: {{ student.firstName }} {{ student.lastName }}</p>
+        <p>Email: {{ student.email }}</p>
+        <p>DOB: {{ student.DOB }}</p>
+        <h5>Classes the Student is enrolled to</h5>
+        <p>{% for class in classes %}</p>
+            <ul>
+                <li>{{ class.number }} {{ class.course.name }}</li>
+            </ul>
+            <p>{% endfor %}</p>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

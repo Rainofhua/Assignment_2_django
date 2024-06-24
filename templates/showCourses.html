@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}
+    Show All Courses
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        {% for course in courses %}
+            <p>
+                <a href="{% url "showCourse" course.id %}">
+                    {{ course.id }} - {{ course.code }} - {{ course.name }}
+                </a>
+                <a href="{% url 'updateCourse' course.id %}" class="btn btn-danger">
+                    Update
+                </a>
+                <a href="{% url "deleteCourse" course.id %}" class="btn btn-danger">
+                    Delete
+                </a>
+            </p>
+        {% endfor %}
+        <a href="{% url 'createCourse' %}" class="btn btn-primary">Register New Course</a>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

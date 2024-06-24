@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+    Student Home Page
+{% endblock %}
+<body>
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        <p>Hello! {{ user.username }}</p>
+        <button><a href="{% url 'displayStudentsGrades' user.id %}">Choose a class to review your grades</a></button>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+{% endblock %}
+</body>

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}
+    Login page
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        <form action="{% url 'updateLecturer' user.id %}" method="post">
+            {% csrf_token %}
+            <p><input type="hidden" name="id" value="{{ user.id }}"></p>
+            <p>UserName:</p>
+            <p><input type="text" name="username" value="{{ user.username }}"></p>
+            <p>Password:</p>
+            <p><input type="password" name="password" value="{{ user.password }}"></p>
+            <p>First Name:</p>
+            <p><input type="text" name="first_name" value="{{ user.first_name }}"></p>
+            <p>Last Name:</p>
+            <p><input type="text" name="last_name" value="{{ user.last_name }}">
+            <p>Email Address:</p>
+            <p><input type="email" name="email" value="{{ user.email }}"></p>
+            <p>Role:</p>
+            <p>Lecturer</p>
+            <input type="submit" value="UPDATE">
+        </form>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}
+    Update Class
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if lecturers %}
+            <button onclick="goBack()" class="goBackButton">Go Back</button>
+            <form action="{% url 'saveAndShowClassesWithLecturer' class.id %}" method="post">
+                {% csrf_token %}
+                <p><input type="hidden" name="id" value="{{ class.id }}"></p>
+                <p>Class Number: {{ class.number }}</p>
+                <p>Semester: {{ class.semester }}</p>
+                <p>Course: {{ class.course }}</p>
+                <p>Lecturer:
+                    {% if lecturers|length == 1 %}
+                        {{ lecturers.0.firstName }} {{ lecturers.0.lastName }}
+                        <h5 style="color: red">This class already has a lecturer</h5>
+                        <p>Wanna change it?</p>
+                        <a href="{% url 'updateClassLecturer' class.id %}" class="btn btn-danger">Update</a>
+                    {% else %}
+                        <select name="lecturer">
+                            <option value="">-- Select a Lecturer --</option>
+                            {% for lec in lecturers %}
+                                <option value="{{ lec.id }}">{{ lec.firstName }} {{ lec.lastName }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="SAVE">
+                    {% endif %}
+                </p>
+            </form>
+        {% endif %}
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
+
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}

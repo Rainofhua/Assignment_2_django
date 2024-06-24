@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+    Show All Lecturers
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        {% if not classes %}
+            <p>Create a class first before assigning a class to a lecturer</p>
+        {% elif not lecturers %}
+            <p>No lecturers found. Create a new one <a href="{% url 'registerLecturer' %}">Register</a></p>
+        {% else %}
+            <p>Choose to see all classes of lecturer:</p>
+            <form action="{% url 'showTheLecturerDetail' %}" method="get">
+                <!--我刚刚有在url 里面添加lecturer.id，这是错误的。它的作用域仅限于loop里面，所以我们需要用到Lecturer.objects.get(id=theLecturer.id)-->
+                <select name="theLecturer">
+                    {% for lecturer in lecturers %}
+                        <option value="{{ lecturer.id }}">{{ lecturer.firstName }}{{ lecturer.lastName }}</option>
+                    {% endfor %}
+                    <input type="submit" value="Search">
+                </select>
+            </form>
+        {% endif %}
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back()
+        }
+    </script>
+{% endblock %}

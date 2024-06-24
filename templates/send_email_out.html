@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+    Send Email
+
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+
+        <h1>Send Email</h1>
+        {{ message }}
+        <form method="post" action="{% url 'send_email_out' %}">
+            {% csrf_token %}
+            <input type="text" name="subject" placeholder="subject"><br>
+            <textarea name="body" placeholder="body"></textarea><br>
+            <input type="email" name="from_email" placeholder="from_email"><br>
+            <input type="email" name="to_email" placeholder="to_email"><br>
+
+            <button type="submit">Send</button>
+
+        </form>
+
+    {% endif %}
+
+{% endblock %}

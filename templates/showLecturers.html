@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}
+    Show All Lecturers
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <button onclick="goBack()" class="goBackButton">Go Back</button>
+        {% for user in users %}
+            <p>
+                <a href="{% url "showLecturer" user.id %}">
+                    {{ user.id }} - {{ user }}
+                </a>
+                <a href="{% url 'updateLecturer' user.id %}" class="btn btn-danger">
+                    Update
+                </a>
+                <a href="{% url "deleteLecturer" user.id %}" class="btn btn-danger">
+                    Delete
+                </a>
+            </p>
+        {% endfor %}
+        <a href="{% url 'registerLecturer' %}" class="btn btn-primary">Register New Lecturer</a>
+    {% endif %}
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <style>
+        .goBackButton {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            background-color: transparent;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .goBackButton:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}
