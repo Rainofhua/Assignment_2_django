@@ -164,34 +164,50 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class ClassSerializer(serializers.ModelSerializer):
-    course = CourseSerializer()
-    semester = SemesterSerializer()
-    lecturer = LecturerSerializer()
-    students = StudentSerializer(many=True)
+    course = CourseSerializer(read_only=True)
+    course_id = serializers.PrimaryKeyRelatedField(
+        queryset=Course.objects.all(),
+        source='course',
+        write_only=True,
+        required=False
+    )
+    semester = SemesterSerializer(read_only=True)
+    semester_id = serializers.PrimaryKeyRelatedField(
+        queryset=Semester.objects.all(),
+        source='semester',
+        write_only=True,
+        required=False
+    )
+    lecturer = LecturerSerializer(read_only=True)
+    lecturer_id = serializers.PrimaryKeyRelatedField(
+        queryset=Lecturer.objects.all(),
+        source='lecturer',
+        write_only=True,
+        required=False
+    )
+    students = StudentSerializer(many=True, read_only=True)
+    student_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Student.objects.all(),
+        source='students',
+        many=True,
+        write_only=True,
+        required=False
+    )
 
     class Meta:
         model = Class
-        fields = ['id', 'number', 'course', 'semester', 'lecturer', 'students']
+        fields = ['id', 'number', 'course', 'course_id', 'semester', 'semester_id', 'lecturer', 'lecturer_id',
+                  'students', 'student_ids']
 
     def create(self, validated_data):
-        course_data = validated_data.pop('course')
+        course_data = validated_data.pop('course', None)
         semester_data = validated_data.pop('semester', None)
-        lecturer_data = validated_data.pop('lecturer')
-        students_data = validated_data.pop('students')
+        lecturer_data = validated_data.pop('lecturer', None)
+        students_data = validated_data.pop('students', [])
 
-        # Check if the course already exists
-        course, created = Course.objects.get_or_create(code=course_data['code'], defaults=course_data)
-        if not created:
-            # Update the existing course with the new data
-            for attr, value in course_data.items():
-                setattr(course, attr, value)
-            course.save()
-
-        lecturer, _ = Lecturer.objects.get_or_create(**lecturer_data)
-
-        semester = None
-        if semester_data:
-            semester, _ = Semester.objects.get_or_create(**semester_data)
+        course = Course.objects.get(id=course_data.id) if course_data else None
+        semester = Semester.objects.get(id=semester_data.id) if semester_data else None
+        lecturer = Lecturer.objects.get(id=lecturer_data.id) if lecturer_data else None
 
         class_instance = Class.objects.create(
             course=course,
@@ -200,11 +216,8 @@ class ClassSerializer(serializers.ModelSerializer):
             **validated_data
         )
 
-        for student_data in students_data:
-            user_data = student_data.pop('user')
-            user, _ = User.objects.get_or_create(**user_data)
-            student, _ = Student.objects.get_or_create(user=user, **student_data)
-            StudentEnrolment.objects.create(class_instance=class_instance, student=student)
+        if students_data:
+            class_instance.students.set(students_data)
 
         return class_instance
 
@@ -215,7 +228,7 @@ class StudentEnrolmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StudentEnrolment
-        fields = ['id', 'student', 'Class', 'grade', 'enrolTime',]
+        fields = ['id', 'student', 'Class', 'grade', 'enrolTime', ]
         read_only_fields = ['student', 'Class', 'enrolTime', 'gradeTime']
 
     def update(self, instance, validated_data):
@@ -223,6 +236,3 @@ class StudentEnrolmentSerializer(serializers.ModelSerializer):
         instance.gradeTime = validated_data.get('gradeTime', instance.gradeTime)
         instance.save()
         return instance
-
-
-

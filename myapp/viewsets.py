@@ -19,7 +19,6 @@ class SemesterViewSet(viewsets.ModelViewSet):
     queryset = Semester.objects.all()
     serializer_class = SemesterSerializer
     authentication_classes = [TokenAuthentication]
-
     # permission_classes = [IsAuthenticated, IsAdministrator]
 
     def create(self, request, *args, **kwargs):
