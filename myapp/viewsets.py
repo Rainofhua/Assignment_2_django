@@ -50,40 +50,41 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated, IsAdministrator]
+    # permission_classes = [IsAuthenticated, ]
 
 
 class LecturerViewSet(viewsets.ModelViewSet):
     queryset = Lecturer.objects.all()
     serializer_class = LecturerSerializer
     authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated, IsAdministrator]
+    # permission_classes = [IsAuthenticated,]
 
 
 class ClassViewSet(viewsets.ModelViewSet):
     queryset = Class.objects.all()
     serializer_class = ClassSerializer
     authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated, IsAdministrator, IsLecturerReadOnly]
+    #permission_classes = [IsAuthenticated, ]
 
 
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated, IsAdministrator]
+    # permission_classes = [IsAuthenticated, ]
 
 
 class StudentEnrolmentViewSet(viewsets.ModelViewSet):
     queryset = StudentEnrolment.objects.all()
     serializer_class = StudentEnrolmentSerializer
     authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated, IsAdministrator, IsStudentReadOnly]
+    # permission_classes = [IsAuthenticated, ]
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    # permission_classes = [IsAuthenticated, ]
 
 
 def file_upload(request):

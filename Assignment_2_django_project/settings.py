@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-87op#s&z1qp!=5!2s9^m93xj@1fbey31retui2h8j6($@651%=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'localhost']
 
 # Application definition
 
@@ -73,16 +73,27 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Assignment_2_django_project.wsgi.application'
-
+# WSGI_APPLICATION = 'Assignment_2_django_project.wsgi.application'
+WSGI_APPLICATION = 'Assignment_2_django_project.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+#  }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'verceldb',
+       'USER': 'default',
+       'PASSWORD': '6NFJRyG0IEWc',
+       'HOST': 'ep-white-grass-a7vjlt49-pooler.ap-southeast-2.aws.neon.tech',
+       'PORT': '5432',
+   }
 }
 
 # Password validation
@@ -138,13 +149,12 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = True  # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]  # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    'http://localhost:3000',
-]
+# CORS_ALLOWED_ORIGINS = [
+#    'http://localhost:3000',
+# ]  # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
+# CORS_ALLOWED_ORIGIN_REGEXES = [
+#    'http://localhost:3000',
+# ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
